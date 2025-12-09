@@ -8,11 +8,11 @@ class SplashPage extends StatefulWidget {
   final ApiService apiService;
   final Widget? home;
 
-  const SplashPage({
+  SplashPage({
     super.key,
-    this.apiService = const ApiService(),
+    ApiService? apiService,
     this.home,
-  });
+  }) : apiService = apiService ?? ApiService();
 
   @override
   State<SplashPage> createState() => _SplashPageState();

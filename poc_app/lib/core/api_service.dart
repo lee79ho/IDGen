@@ -1,4 +1,6 @@
-import 'dart:math';
+import 'package:dio/dio.dart';
+import 'package:poc_app/core/env_const.dart';
+import 'package:poc_app/models/version_check_response.dart';
 
 enum UpdateStatus {
   latest,
@@ -8,21 +10,33 @@ enum UpdateStatus {
 
 class AppVersionInfo {
   final UpdateStatus status;
-
   const AppVersionInfo(this.status);
 }
 
 class ApiService {
-  const ApiService();
+  final Dio _dio;
+
+  ApiService({Dio? dio}) : _dio = dio ?? Dio();
 
   Future<AppVersionInfo> checkAppVersion() async {
-    await Future.delayed(const Duration(seconds: 1));
-    final statuses = [
-      UpdateStatus.latest,
-      UpdateStatus.forceUpdate,
-      UpdateStatus.optionalUpdate
-    ];
-    final status = statuses[Random().nextInt(statuses.length)];
-    return AppVersionInfo(status);
+    try {
+      final response = await _dio.get("${EnvConst.userApiUrl}/api/v1/version");
+      final data = GetVersionCheckResponse.fromJson(response.data);
+      return AppVersionInfo(_mapUpdateStatus(data.updateType));
+    } catch (e) {
+      print('Failed to check app version: $e');
+      return const AppVersionInfo(UpdateStatus.latest);
+    }
+  }
+
+  UpdateStatus _mapUpdateStatus(String updateType) {
+    switch (updateType.toUpperCase()) {
+      case 'FORCE':
+        return UpdateStatus.forceUpdate;
+      case 'OPTIONAL':
+        return UpdateStatus.optionalUpdate;
+      default:
+        return UpdateStatus.latest;
+    }
   }
 }
