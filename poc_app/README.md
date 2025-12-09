@@ -1,43 +1,32 @@
-# poc_app
+# POC App
 
-A new Flutter project.
+This is a proof-of-concept Flutter application.
 
-## Getting Started
+## Native Project Configuration
 
-This project is a starting point for a Flutter application.
+To enable all features, you need to configure the native Android and iOS projects.
 
-A few resources to get you started if this is your first Flutter project:
+### Android
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+File: `android/app/src/main/AndroidManifest.xml`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1.  **Kakao Login:** Replace `kakaoYOUR_NATIVE_APP_KEY_PLACEHOLDER` with your actual Kakao native app key.
+2.  **Naver Login:** Replace the placeholder values for `com.naver.sdk.clientId`, `com.naver.sdk.clientSecret`, and `com.naver.sdk.clientName`.
 
-## Social Login Configuration
+File: `lib/main.dart`
 
-To enable social login functionalities, you need to replace the placeholder values in the following files with your actual keys and settings from the respective developer consoles.
+1.  **Kakao SDK:** Replace `YOUR_KAKAO_NATIVE_APP_KEY_PLACEHOLDER` with your Kakao native app key to initialize the SDK.
 
-### 1. Kakao Login
+### iOS
 
-- **File:** `lib/main.dart`
-  - Replace `YOUR_NATIVE_APP_KEY_PLACEHOLDER` with your Kakao native app key.
-- **File:** `android/app/src/main/AndroidManifest.xml`
-  - In the `AuthCodeHandlerActivity` intent-filter, replace `kakaoYOUR_NATIVE_APP_KEY_PLACEHOLDER` with your Kakao native app key prefixed with "kakao".
-- **File:** `ios/Runner/Info.plist`
-  - In the `CFBundleURLSchemes` array, replace `kakaoYOUR_NATIVE_APP_KEY_PLACEHOLDER` with your Kakao native app key prefixed with "kakao".
+File: `ios/Runner/Info.plist`
 
-### 2. Naver Login
+1.  **Kakao Login:** Replace `kakaoYOUR_KAKAO_NATIVE_APP_KEY_PLACEHOLDER` with your actual Kakao native app key.
+2.  **Naver Login:** Replace placeholders for `YOUR_NAVER_URL_SCHEME_PLACEHOLDER`, `NaverConsumerKey`, `NaverConsumerSecret`, and `NaverAppName`.
 
-- **File:** `android/app/src/main/AndroidManifest.xml`
-  - Replace `YOUR_NAVER_CLIENT_ID_PLACEHOLDER` with your Naver client ID.
-  - Replace `YOUR_NAVER_CLIENT_SECRET_PLACEHOLDER` with your Naver client secret.
-  - Replace `YOUR_NAVER_CLIENT_NAME_PLACEHOLDER` with your Naver client name.
-- **File:** `ios/Runner/Info.plist`
-  - In the `CFBundleURLSchemes` array, replace `YOUR_NAVER_URL_SCHEME_PLACEHOLDER` with your Naver URL scheme.
+**Xcode Configuration:**
 
-### 3. Apple Login
-
-- **File:** `ios/Runner/AppDelegate.swift`
-  - Follow the instructions in the comment at the top of the file to enable the "Sign in with Apple" capability in your Xcode project.
+1.  Open the `ios` directory in Xcode.
+2.  Select the `Runner` target.
+3.  Go to the "Signing & Capabilities" tab.
+4.  Click `+ Capability` and add "Sign in with Apple".

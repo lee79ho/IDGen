@@ -6,7 +6,7 @@ import 'package:poc_app/widgets/update_bottom_sheet.dart';
 
 class SplashPage extends StatefulWidget {
   final ApiService apiService;
-  final Widget? home; // Add this for testing purposes
+  final Widget? home;
 
   const SplashPage({
     super.key,
@@ -19,7 +19,6 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  AppVersionInfo? _appVersionInfo;
   bool _isLoading = true;
 
   @override
@@ -34,11 +33,9 @@ class _SplashPageState extends State<SplashPage> {
     if (!mounted) return;
 
     setState(() {
-      _appVersionInfo = info;
       _isLoading = false;
     });
 
-    // Allow the splash animation to be visible for a moment before acting.
     await Future.delayed(const Duration(seconds: 3));
 
     if (!mounted) return;
@@ -50,7 +47,6 @@ class _SplashPageState extends State<SplashPage> {
       case UpdateStatus.forceUpdate:
       case UpdateStatus.optionalUpdate:
         showUpdateBottomSheet(context, info.status, () {
-          print("Update Now pressed");
           if (info.status == UpdateStatus.optionalUpdate) {
             _navigateToHome();
           }

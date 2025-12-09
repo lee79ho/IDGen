@@ -1,4 +1,4 @@
-package com.example.poc_app
+package com.gadgetkorea.usimsa
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
@@ -16,8 +16,6 @@ class MainActivity: FlutterActivity() {
                 val provider = call.argument<String>("provider")
                 val orderId = call.argument<String>("orderId")
                 val amount = call.argument<Double>("amount")
-                // In a real app, you'd integrate the respective payment SDKs here.
-                // For this POC, we'll just return a dummy success response.
                 result.success(mapOf(
                     "status" to "success",
                     "orderId" to orderId,

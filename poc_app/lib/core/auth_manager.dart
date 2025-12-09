@@ -1,31 +1,34 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthManager {
-  Future<String> loginWithNaver() async {
+  Future<void> signInWithKakao() async {
+    try {
+      if (await isKakaoTalkInstalled()) {
+        await UserApi.instance.loginWithKakaoTalk();
+      } else {
+        await UserApi.instance.loginWithKakaoAccount();
+      }
+      print('Kakao login success');
+    } catch (error) {
+      print('Kakao login failed: $error');
+    }
+  }
+
+  Future<void> signInWithNaver() async {
     try {
       final NaverLoginResult result = await FlutterNaverLogin.logIn();
-      return 'Naver Login Success: ${result.account.email}';
-    } catch (e) {
-      return 'Naver Login Error: $e';
+      if (result.status == NaverLoginStatus.loggedIn) {
+        print('Naver login success: ${result.account.email}');
+      }
+    } catch (error) {
+      print('Naver login failed: $error');
     }
   }
 
-  Future<String> loginWithKakao() async {
-    try {
-      final bool isInstalled = await isKakaoTalkInstalled();
-      final token = isInstalled
-          ? await UserApi.instance.loginWithKakaoTalk()
-          : await UserApi.instance.loginWithKakaoAccount();
-      final user = await UserApi.instance.me();
-      return 'Kakao Login Success: ${user.kakaoAccount?.email}';
-    } catch (e) {
-      return 'Kakao Login Error: $e';
-    }
-  }
-
-  Future<String> loginWithApple() async {
+  Future<void> signInWithApple() async {
     try {
       final credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -33,15 +36,14 @@ class AuthManager {
           AppleIDAuthorizationScopes.fullName,
         ],
       );
-      return 'Apple Login Success: ${credential.email}';
-    } catch (e) {
-      return 'Apple Login Error: $e';
+      print('Apple login success: ${credential.userIdentifier}');
+    } catch (error) {
+      print('Apple login failed: $error');
     }
   }
 
-  Future<String> loginWithUsimsa() async {
-    // This is a placeholder for the custom Usimsa login.
-    // In a real app, this would involve a custom login flow.
-    return 'Usimsa Login (Not Implemented)';
+  Future<void> signInWithUsimsa() async {
+    // Placeholder for custom login
+    print('Usimsa login tapped');
   }
 }

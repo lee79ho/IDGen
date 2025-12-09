@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poc_app/core/api_service.dart';
 
-/// A modal bottom sheet that informs the user about a required or optional app update.
-///
-/// This widget is displayed from the [SplashPage] if the `ApiService`
-/// indicates that an update is available.
 void showUpdateBottomSheet(BuildContext context, UpdateStatus status, VoidCallback onConfirm) {
   showModalBottomSheet(
     context: context,
