@@ -19,12 +19,18 @@ class AuthManager {
 
   Future<void> signInWithNaver() async {
     try {
-      final NaverLoginResult result = await FlutterNaverLogin.logIn();
-      if (result.status == NaverLoginStatus.loggedIn) {
-        print('Naver login success: ${result.account.email}');
+      final result = await FlutterNaverLogin.logIn();
+
+      // Check if the account object is available as a sign of successful login
+      if (result.account != null) {
+        print('Naver login success: ${result.account?.email}');
+      } else {
+        print('Naver login failed: No account information received.');
+        await FlutterNaverLogin.logOut();
       }
     } catch (error) {
-      print('Naver login failed: $error');
+      print('Naver login failed with exception: $error');
+      await FlutterNaverLogin.logOut();
     }
   }
 
